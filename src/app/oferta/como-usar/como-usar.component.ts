@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Params } from "@angular/router";
 import { ComoUsarService } from "app/como-usar.service";
 import { ComoUsar } from "app/shared/como-usar.model";
 
@@ -17,14 +17,14 @@ export class ComoUsarComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.route.parent.snapshot.params["id"]) {
+    this.route.parent.params.subscribe((parametros: Params) => {
       this.comoUsarService
-        .getRegistroPorId(this.route.parent.snapshot.params["id"])
+        .getRegistroPorId(parametros.id)
         .then((registro: ComoUsar) => {
           this.registro = registro;
           console.log("como usar");
           console.log(registro);
         });
-    }
+    });
   }
 }

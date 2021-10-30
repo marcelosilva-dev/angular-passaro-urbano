@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Params } from "@angular/router";
 import { Oferta } from "app/shared/oferta.model";
 import { OfertasService } from "app/ofertas.service";
 import { Observable } from "rxjs";
@@ -19,7 +19,16 @@ export class OfertaComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
   ngOnInit() {
+    this.route.params.subscribe((parametros: Params) => {
+      this.ofertaService
+        .getOfertasPorId(parametros.id)
+        .then((oferta: Oferta) => {
+          this.oferta = oferta;
+        });
+    });
+
     // METODO SNAPSHOT
+    /*
     if (this.route.snapshot.params["id"]) {
       this.ofertaService
         .getOfertasPorId(this.route.snapshot.params["id"])
@@ -27,6 +36,7 @@ export class OfertaComponent implements OnInit {
           this.oferta = oferta;
         });
     }
+    */
     // METODO SUBSCRIBE
     // this.route.params.subscribe((parametro: any) => {
     //  console.log(parametro);
